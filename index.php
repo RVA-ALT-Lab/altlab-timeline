@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ALT LAB Timeline Maker
  * Plugin URI: https://github.com/woodwardtw/
- * Description: lets you create timelines using WordPress posts (including custom post types)
+ * Description: lets you create Timeline JS (Knight Lab) data views using WordPress posts (including custom post types)
 
  * Version: 1.7
  * Author: Tom Woodward
