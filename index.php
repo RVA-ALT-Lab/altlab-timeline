@@ -35,7 +35,7 @@ if(!function_exists('load_my_script')){
         $deps = array('jquery');
         $version= '1.0'; 
         $in_footer = false;
-        wp_enqueue_script('knightlab_timeline', plugins_url( 'altlab-time/js/timeline-min.js'), $deps, $version, $in_footer);
+        wp_enqueue_script('knightlab_timeline', plugins_url( '/js/timeline-min.js', __FILE__), $deps, $version, $in_footer);
         wp_localize_script('my-script', 'my_script_vars', array(
                 'postID' => $post->ID
             )
