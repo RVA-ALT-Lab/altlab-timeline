@@ -135,10 +135,19 @@ class Event {
 
 function makeTheEvents ($post_id){
 	        $cats = wp_get_post_categories($post_id); 
+
+	        //if custom field type is set to a custom post type then get that instead
+	        if (get_post_meta( get_the_ID(), 'type', true )){
+	        	$post = get_post_meta( get_the_ID(), 'type', true );
+	        } else {
+	        	$post = 'post';
+	        }
+
 			$args = array(
 				'posts_per_page' => 40, 
 				'orderby' => 'date',
 				'category__in' =>  $cats,
+				'post_type' => $post,
 			);
 			$the_query = new WP_Query( $args );
 			// The Loop
