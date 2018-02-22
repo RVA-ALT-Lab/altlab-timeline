@@ -137,8 +137,8 @@ function makeTheEvents ($post_id){
 	        $cats = wp_get_post_categories($post_id); 
 
 	        //if custom field type is set to a custom post type then get that instead
-	        if (get_post_meta( get_the_ID(), 'type', true )){
-	        	$post = get_post_meta( get_the_ID(), 'type', true );
+	        if (get_post_meta($post_id, 'type', true )){
+	        	$post = get_post_meta( $post_id, 'type', true );
 	        } else {
 	        	$post = 'post';
 	        }
