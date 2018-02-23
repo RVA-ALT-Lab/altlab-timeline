@@ -131,7 +131,7 @@ class Event {
     public $media = "";
     public $start_date = "";
     public $text = "";
-    public $end_date = "";
+    
 }
 
 function makeTheEvents ($post_id){
@@ -178,9 +178,9 @@ function makeTheEvents ($post_id){
 				@$event->text->headline = get_the_title();
 				@$event->text->text = get_the_content();
 				//END DATE
-				if (count(get_post_meta($the_id, 'end_date', true))>0){
+				if (get_post_meta($the_id, 'end_date', true) && get_post_meta($the_id, 'end_date', true)["text"]){
 					$end_date = get_post_meta($the_id, 'end_date', true)["text"];
-					@$event->end_date->month = intval(substr($end_date, 5, 2)); //chop up the date to match the timeline js structure
+					@$event->end_date->month = intval(substr($end_date, 5, 2));
 					@$event->end_date->day =  intval(substr($end_date, -2));
 					@$event->end_date->year =  intval(substr($end_date,0, 4));
 				}
