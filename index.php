@@ -28,26 +28,26 @@
  
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 
-		if(!function_exists('load_my_script')){
-		    function load_my_script() {		    	
+		if(!function_exists('load_timelinejs_script')){
+		    function load_timelinejs_script() {		    	
 		        global $post;
 		        if (get_post_type($post->ID) === 'timeline'){
 			        $deps = array('jquery');
 			        $version= '1.0'; 
 			        $in_footer = false;
 			        wp_enqueue_script('knightlab_timeline', plugins_url( '/js/timeline-min.js', __FILE__), $deps, $version, $in_footer);
-			        wp_localize_script('my-script', 'my_script_vars', array(
-			                'postID' => $post->ID
+			        wp_localize_script('load_timelinejs_script', 'my_script_vars', array(
+			                'postID' => $post->ID //do this later 
 			            )
 			        );        
 			    }
 			}
 		}
-		add_action('wp_enqueue_scripts', 'load_my_script');
+		add_action('wp_enqueue_scripts', 'load_timelinejs_script');
 
 		function add_timeline_stylesheet() {
 			global $post;
-			 if (get_post_type($post->ID) === 'timeline'){
+			if (get_post_type($post->ID) === 'timeline'){
 		    	wp_enqueue_style( 'timeline-css', plugins_url( '/css/timeline.css', __FILE__ ) );
 		    }
 		}
