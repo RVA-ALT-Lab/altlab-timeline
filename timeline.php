@@ -8,7 +8,7 @@
         <?php if(have_posts()): while(have_posts()): the_post(); ?>
            <?php 
           	 $post_id = get_the_ID();
-          	 $content = json_encode(get_the_content($post_id));
+          	 $content = json_encode(get_the_content($post_id));          	
           	 ?>	          	 		
 		<?php endwhile; endif;?>
 

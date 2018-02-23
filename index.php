@@ -131,6 +131,7 @@ class Event {
     public $media = "";
     public $start_date = "";
     public $text = "";
+    public $end_date = "";
 }
 
 function makeTheEvents ($post_id){
@@ -175,6 +176,13 @@ function makeTheEvents ($post_id){
 				//TEXT
 				@$event->text->headline = get_the_title();
 				@$event->text->text = get_the_content();
+				//END DATE
+				if (count(get_post_meta($the_id, 'end_date', true))>0){
+					$end_date = get_post_meta($the_id, 'end_date', true)["text"];
+					@$event->end_date->month = intval(substr($end_date, 5, 2));
+					@$event->end_date->day =  intval(substr($end_date, -2));
+					@$event->end_date->year =  intval(substr($end_date,0, 4));
+				}
 			    array_push($the_events, $event);
 				endwhile;
 			endif;
@@ -183,3 +191,61 @@ function makeTheEvents ($post_id){
 			$the_events = json_encode($the_events);
 			return $the_events;
 }
+
+//add end date option to posts
+function end_date_meta_box() {
+	add_meta_box(
+		'end_date_meta_box', // $id
+		'Event End Date', // $title
+		'show_end_date_meta_box', // $callback
+		'post', // $screen
+		'normal', // $context
+		'high' // $priority
+	);
+}
+add_action( 'add_meta_boxes', 'end_date_meta_box' );
+
+
+function save_end_date_meta( $post_id ) {   
+	// verify nonce
+	if ( !wp_verify_nonce( $_POST['end_date_meta_box_nonce'], basename(__FILE__) ) ) {
+		return $post_id; 
+	}
+	// check autosave
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return $post_id;
+	}
+	// check permissions
+	if ( 'page' === $_POST['post_type'] ) {
+		if ( !current_user_can( 'edit_page', $post_id ) ) {
+			return $post_id;
+		} elseif ( !current_user_can( 'edit_post', $post_id ) ) {
+			return $post_id;
+		}  
+	}
+	
+	$old = get_post_meta( $post_id, 'end_date', true );
+	$new = $_POST['end_date'];
+
+	if ( $new && $new !== $old ) {
+		update_post_meta( $post_id, 'end_date', $new );
+	} elseif ( '' === $new && $old ) {
+		delete_post_meta( $post_id, 'end_date', $old );
+	}
+}
+add_action( 'save_post', 'save_end_date_meta' );
+
+function show_end_date_meta_box() {
+	global $post;  
+	$meta = get_post_meta( $post->ID, 'end_date', true ); ?>
+
+	<input type="hidden" name="end_date_meta_box_nonce" value="<?php echo wp_create_nonce( basename(__FILE__) ); ?>">
+
+    <!-- All fields will go here -->
+    <p>
+	<label for="end_date[text]">End Date</label>
+	<input type="date" name="end_date[text]" id="end_date[text]" class="regular-text" value="<?php echo $meta['text'];?>">
+    </p>
+   
+	<?php }
+
