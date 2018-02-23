@@ -157,10 +157,11 @@ function makeTheEvents ($post_id){
 			if ( $the_query->have_posts() ) :				
 			while ( $the_query->have_posts() ) : $the_query->the_post();
 				$the_id = get_the_ID();
+				//get the featured image to use as media
 				if (get_the_post_thumbnail_url( $the_id, 'full')){
 					$featured_img_url = get_the_post_thumbnail_url( $the_id, 'full');
 					$thumbnail_id = get_post_thumbnail_id( $the_id);
-					$alt = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true);
+					$alt = get_post_meta($thumbnail_id, '_wp_attachment_image_alt', true); 
 					$caption = get_post($thumbnail_id)->post_excerpt;
 				} else $featured_img_url = "";
 
@@ -179,7 +180,7 @@ function makeTheEvents ($post_id){
 				//END DATE
 				if (count(get_post_meta($the_id, 'end_date', true))>0){
 					$end_date = get_post_meta($the_id, 'end_date', true)["text"];
-					@$event->end_date->month = intval(substr($end_date, 5, 2));
+					@$event->end_date->month = intval(substr($end_date, 5, 2)); //chop up the date to match the timeline js structure
 					@$event->end_date->day =  intval(substr($end_date, -2));
 					@$event->end_date->year =  intval(substr($end_date,0, 4));
 				}
@@ -191,6 +192,8 @@ function makeTheEvents ($post_id){
 			$the_events = json_encode($the_events);
 			return $the_events;
 }
+
+//ADD THE END DATE METABOX TO POSTS
 
 //add end date option to posts
 function end_date_meta_box() {
