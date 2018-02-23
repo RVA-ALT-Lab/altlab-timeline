@@ -35,11 +35,7 @@ defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 			        $deps = array('jquery');
 			        $version= '1.0'; 
 			        $in_footer = false;
-			        wp_enqueue_script('knightlab_timeline', plugins_url( '/js/timeline-min.js', __FILE__), $deps, $version, $in_footer);
-			        wp_localize_script('load_timelinejs_script', 'my_script_vars', array(
-			                'postID' => $post->ID //do this later 
-			            )
-			        );        
+			        wp_enqueue_script('knightlab_timeline', plugins_url( '/js/timeline-min.js', __FILE__), $deps, $version, $in_footer);			
 			    }
 			}
 		}
