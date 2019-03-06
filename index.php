@@ -252,3 +252,10 @@ function show_end_date_meta_box() {
    
 	<?php }
 
+//FLUSH PERMALINK SETTINGS
+register_deactivation_hook( __FILE__, 'altlab_timeline_flush_rewrites' );
+register_activation_hook( __FILE__, 'altlab_timeline_flush_rewrites' );
+function altlab_timeline_flush_rewrites() {
+	create_timeline_cpt();
+	flush_rewrite_rules();
+}
